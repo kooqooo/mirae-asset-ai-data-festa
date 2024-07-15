@@ -20,18 +20,12 @@ class EmbeddingExecutor(CLOVAStudioExecutor):
         self._end_point = "embedding"
 
     def _send_request(self, completion_request):
-        headers = {
-            "Content-Type": "application/json; charset=utf-8",
-            "X-NCP-CLOVASTUDIO-API-KEY": self._api_key,
-            "X-NCP-APIGW-API-KEY": self._api_key_primary_val,
-            "X-NCP-CLOVASTUDIO-REQUEST-ID": self._request_id,
-        }
         conn = http.client.HTTPSConnection(self._host)
         conn.request(
             "POST",
             f"/testapp/v1/api-tools/{self._end_point}/clir-emb-dolphin/{self._test_app_id}",
             json.dumps(completion_request),
-            headers,
+            self._headers,
         )
         response = conn.getresponse()
         result = json.loads(response.read().decode(encoding="utf-8"))
