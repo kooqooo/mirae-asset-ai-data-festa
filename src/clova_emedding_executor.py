@@ -47,10 +47,10 @@ if __name__ == "__main__":
 
     load_dotenv(override=True)
 
-    API_KEY = os.getenv("API_KEY")
-    API_KEY_PRIMARY_VAL = os.getenv("API_KEY_PRIMARY_VAL")
+    API_KEY = os.getenv("CLOVA_EMB_API_KEY")
+    API_KEY_PRIMARY_VAL = os.getenv("CLOVA_EMB_APIGW_API_KEY")
     REQUEST_ID = os.getenv("REQUEST_ID_EMBEDDING")
-    TEST_APP_ID = os.getenv("TEST_APP_ID_EMBEDDING")
+    TEST_APP_ID = os.getenv("CLOVA_EMB_APP_ID")
 
     embedding_executor = EmbeddingExecutor(
         host="clovastudio.apigw.ntruss.com",  # 현재 상태에서 https 붙이면 에러 발생
