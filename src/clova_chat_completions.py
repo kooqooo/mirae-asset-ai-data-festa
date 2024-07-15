@@ -1,47 +1,44 @@
 from ast import literal_eval
 import json
 import requests
-from timeit import timeit
+from http import HTTPStatus
 
-class CompletionExecutor:
+from request_data import RequestData    # src/request_data.py
+from clovastudio_executor import CLOVAStudioExecutor # src/clovastudio_executor.py
+
+class CompletionExecutor(CLOVAStudioExecutor):
     def __init__(
         self,
         api_key,
         api_key_primary_val,
         request_id,
-        test_app_id,
-        host="https://clovastudio.stream.ntruss.com"
+        test_app_id="HCX-DASH-001",
+        host="https://clovastudio.stream.ntruss.com",
+        stream=True,
     ) -> None:
-        self.__host = host
-        self.__api_key = api_key
-        self.__api_key_primary_val = api_key_primary_val
-        self.__request_id = request_id
-        self.__test_app_id = test_app_id
-        self.__headers = {
-            "X-NCP-CLOVASTUDIO-API-KEY": self.__api_key,
-            "X-NCP-APIGW-API-KEY": self.__api_key_primary_val,
-            "X-NCP-CLOVASTUDIO-REQUEST-ID": self.__request_id, # 없어도 작동 가능
-            "Content-Type": "application/json; charset=utf-8",
-            "Accept": "text/event-stream",
-        }
-
-    def _post_request(self, completion_request, stream=False):
+        super().__init__(api_key, api_key_primary_val, request_id, test_app_id, host)
+        self._test_app_id = test_app_id
+        self._stream = stream
+        self._headers["Accept"] = "text/event-stream" if self._stream else "application/json"
+        self._end_point = "chat-completions"
+    
+    def _send_request(self, completion_request, stream=True):
         return requests.post(
-            f"{self.__host}/testapp/v1/chat-completions/{self.__test_app_id}",
-            headers=self.__headers,
+            f"{self._host}/testapp/v1/{self._end_point}/{self._test_app_id}",
+            headers=self._headers,
             json=completion_request,
             stream=stream,
         )
 
     def request(self, completion_request, stream=True):
-        return self._post_request(completion_request, stream=stream)
+        return self._send_request(completion_request, stream=stream)
     
-    def execute(self, completion_request, response_type="stream"):
+    def execute(self, completion_request, stream=True):
         # 길이가 가장 긴 문장을 반환, 테스트 결과 가장 빠른 속도를 보여서 채택
         final_answer = ""
  
         with self.request(completion_request) as r:
-            if response_type == "stream":
+            if stream:
                 longest_line = ""
                 for line in r.iter_lines():
                     if line:
@@ -52,7 +49,7 @@ class CompletionExecutor:
                             if len(message_content) > len(longest_line):
                                 longest_line = message_content
                 final_answer = longest_line
-            elif response_type == "single":
+            elif not stream:
                 final_answer = r.json()  # 가정: 단일 응답이 JSON 형태로 반환됨
         return final_answer
     
@@ -72,65 +69,68 @@ class CompletionExecutor:
                     last_data_content = json.loads(decoded_line[5:])["message"]["content"]
  
         return last_data_content
+    
+    def execute_all(self, completion_request, stream=True):
+        # 모든 응답을 반환, 스트림 출력 지원
+        # parse_stream_response() 또는 parse_non_stream_response()를 사용하여 content 부분만 추출이 필요
+        with self.request(completion_request) as r:
+            if stream:
+                if r.status_code == HTTPStatus.OK:
+                    response_data = ""
+                    for line in r.iter_lines():
+                        if line:
+                            decoded_line = line.decode("utf-8")
+                            # 실시간 출력 부분
+                            if decoded_line.startswith('data:'):
+                                data = json.loads(line[5:])
+                                if 'message' in data and 'content' in data['message']:
+                                    print(data['message']['content'], end="", flush=True)
+                            response_data += decoded_line + "\n"
+                    return response_data
+                else:
+                    print(f"오류 발생: HTTP {r.status_code}, 메시지: {r.text}")
+                    # raise ValueError(f"오류 발생: HTTP {r.status_code}, 메시지: {r.text}")
+            else:
+                if r.status_code == HTTPStatus.OK:
+                    return r.json()
+                else:
+                    print(f"오류 발생: HTTP {r.status_code}, 메시지: {r.text}")
+                    # raise ValueError(f"오류 발생: HTTP {r.status_code}, 메시지: {r.text}")
 
-def parse_response(response: str) -> str:
+def parse_response(response: str | dict) -> str:
     """
     실제 message의 content를 반환합니다.
     """
-    response_dict = literal_eval(response[5:])  # "data:" 제거
-    return response_dict["message"]["content"].replace("\\n", "\n")
+    if isinstance(response, str):
+        response = literal_eval(response[5:]) # "data:" 제거
+    return response["message"]["content"].replace("\\n", "\n")
 
-
-class RequestData:
+# 스트리밍 응답에서 content 부분만 추출
+def parse_stream_response(response):
     """
-    API 요청을 위한 데이터 클래스입니다.
-    
-    Args:
-        messages: 프롬프트나 이전 대화 내용
-        temperature (float): 생성 토큰에 대한 다양성 정도(설정값이 높을수록 다양한 문장 생성), 0.00 < temperature <= 1 (기본값: 0.50)
-        topP (float): 생성 토큰 후보군을 누적 확률을 기반으로 샘플링, 0 < topP <= 1 (기본값: 0.8)
-        topK (int): 생성 토큰 후보군에서 확률이 높은 k개를 후보로 지정하여 샘플링, 0 <= topK <= 128 (기본값: 0)
-        repeatPenalty (float): 같은 토큰을 생성하는 것에 대한 패널티 정도(설정값이 높을수록 같은 결괏값을 반복 생성할 확률 감소), 0 < repeatPenalty <= 10 (기본값: 5.0)
-        maxTokens (int): 생성 토큰 후보군에서 확률이 높은 k개를 후보로 지정하여 샘플링
-        stopBefore (list[str]): 토큰 생성 중단 문자, (기본값: [])
-        includeAiFilters (bool): 생성된 결괏값에 대해 욕설, 비하/차별/혐오, 성희롱 /음란 등 카테고리별로 해당하는 정도, (기본값: True)
-        seed (int): 0일 때 일관성 수준이 랜덤 적용 (기본값: 0), 사용자 지정 seed 범위: 1 <= seed <= 4294967295
+    stream=True로 설정한 execute_all()에서 사용합니다.
     """
-    def __init__(
-        self,
-        messages: list[dict[str, str]],
-        temperature: float = 0.1,
-        topP: float = 0.8,
-        topK: int = 0,
-        maxTokens: int = 256,
-        repeatPenalty: float = 5.0,
-        stopBefore: list[str] = [],
-        includeAiFilters: bool = True,
-        seed: int = 0
-    ) -> None:
-        self.messages = messages
-        self.topP = topP
-        self.topK = topK
-        self.maxTokens = maxTokens
-        self.temperature = temperature
-        self.repeatPenalty = repeatPenalty
-        self.stopBefore = stopBefore
-        self.includeAiFilters = includeAiFilters
-        self.seed = seed
+    content_parts = []
+    for line in response.splitlines():
+        if line.startswith('data:'):
+            data = json.loads(line[5:])
+            if 'message' in data and 'content' in data['message']:
+                content_parts.append(data['message']['content'])
+    content = content_parts[-1] if content_parts else ""
+    return content.strip()
+ 
+# 논스트리밍 응답에서 content 부분만 추출
+def parse_non_stream_response(response: str | dict) -> str:
+    """
+    stream=False로 설정한 execute_all()에서 사용합니다.
+    """
+    if isinstance(response, str):
+        response = literal_eval(response)
+    result = response.get('result', {})
+    message = result.get('message', {})
+    content = message.get('content', '')
+    return content.strip()
 
-
-    def to_dict(self) -> dict:
-        return {
-            "messages": self.messages,
-            "topP": self.topP,
-            "topK": self.topK,
-            "maxTokens": self.maxTokens,
-            "temperature": self.temperature,
-            "repeatPenalty": self.repeatPenalty,
-            "stopBefore": self.stopBefore,
-            "includeAiFilters": self.includeAiFilters,
-            "seed": self.seed,
-        }
 
 
 if __name__ == "__main__":
@@ -158,5 +158,23 @@ if __name__ == "__main__":
         test_app_id=TEST_APP_ID,
     )
     
+    print("execute(), stream=True")
     response = completion_executor.execute(request_data)
     print(response)
+    
+    print()
+    print("execute_all(), stream=True")
+    response = completion_executor.execute_all(request_data)
+    print(parse_stream_response(response))
+    
+    non_stream_completion_executor = CompletionExecutor(
+        api_key=API_KEY,
+        api_key_primary_val=API_KEY_PRIMARY_VAL,
+        request_id=REQUEST_ID,
+        test_app_id=TEST_APP_ID,
+        stream=False
+    )
+    print()
+    print("execute_all(), stream=False")
+    response = non_stream_completion_executor.execute_all(request_data, stream=False)
+    print(parse_non_stream_response(response))
