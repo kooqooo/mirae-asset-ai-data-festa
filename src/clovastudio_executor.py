@@ -16,7 +16,6 @@ class CLOVAStudioExecutor:
             "X-NCP-APIGW-API-KEY": self._api_key_primary_val,
             "X-NCP-CLOVASTUDIO-REQUEST-ID": self._request_id,  # 없어도 작동 가능
             "Content-Type": "application/json; charset=utf-8",
-            "Accept": "text/event-stream",
         }
 
     def _send_request(self, completion_request, endpoint):
