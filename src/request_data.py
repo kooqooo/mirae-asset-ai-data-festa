@@ -1,7 +1,7 @@
 class RequestData:
     """
     API 요청을 위한 데이터 클래스입니다.
-    
+
     Args:
         messages: 프롬프트나 이전 대화 내용
         temperature (float): 생성 토큰에 대한 다양성 정도(설정값이 높을수록 다양한 문장 생성), 0.00 < temperature <= 1 (기본값: 0.50)
@@ -13,6 +13,7 @@ class RequestData:
         includeAiFilters (bool): 생성된 결괏값에 대해 욕설, 비하/차별/혐오, 성희롱 /음란 등 카테고리별로 해당하는 정도, (기본값: True)
         seed (int): 0일 때 일관성 수준이 랜덤 적용 (기본값: 0), 사용자 지정 seed 범위: 1 <= seed <= 4294967295
     """
+
     def __init__(
         self,
         messages: list[dict[str, str]],
@@ -23,7 +24,7 @@ class RequestData:
         repeatPenalty: float = 5.0,
         stopBefore: list[str] = [],
         includeAiFilters: bool = True,
-        seed: int = 0
+        seed: int = 0,
     ) -> None:
         self.messages = messages
         self.topP = topP
@@ -34,7 +35,6 @@ class RequestData:
         self.stopBefore = stopBefore
         self.includeAiFilters = includeAiFilters
         self.seed = seed
-
 
     def to_dict(self) -> dict:
         return {

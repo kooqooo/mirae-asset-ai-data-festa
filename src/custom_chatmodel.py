@@ -129,9 +129,7 @@ class CustomChatModelAdvanced(BaseChatModel):
             yield chunk
 
         # Let's add some other information (e.g., response metadata)
-        chunk = ChatGenerationChunk(
-            message=AIMessageChunk(content="", response_metadata={"time_in_sec": 3})
-        )
+        chunk = ChatGenerationChunk(message=AIMessageChunk(content="", response_metadata={"time_in_sec": 3}))
         if run_manager:
             # This is optional in newer versions of LangChain
             # The on_llm_new_token will be called automatically
