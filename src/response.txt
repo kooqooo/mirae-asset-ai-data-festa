@@ -1,0 +1,548 @@
+id:244be102-2ced-4eaa-a573-ae394e182c9a
+event:token
+data:{"message":{"role":"assistant","content":"경기"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ad8edffe-5b9a-4fca-8a0a-9a2f1398b924
+event:token
+data:{"message":{"role":"assistant","content":"도"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:86aa1f3e-d648-45fd-8694-d471a7b7ff36
+event:token
+data:{"message":{"role":"assistant","content":" 용인"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:a932f0c4-c82b-4118-8a8e-db90d7a2a8a5
+event:token
+data:{"message":{"role":"assistant","content":"시"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:eda12cca-8e5b-42b7-97d9-860d423d9efe
+event:token
+data:{"message":{"role":"assistant","content":" 기흥"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:6da4df69-6bc8-4645-ab23-9a6b59d412aa
+event:token
+data:{"message":{"role":"assistant","content":"구"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:77fa9539-83ce-4ae8-bf1f-1876cc1dc939
+event:token
+data:{"message":{"role":"assistant","content":" 보정"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:bf060ae0-d51c-4e45-aa26-0b736f556beb
+event:token
+data:{"message":{"role":"assistant","content":"동"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:739c4fef-6935-4c69-97c5-08c0b19ad620
+event:token
+data:{"message":{"role":"assistant","content":" 근처"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:f8538a99-4793-463e-9d8e-117e0fd4ddd2
+event:token
+data:{"message":{"role":"assistant","content":" 맛집"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:d6c68425-79a5-4e52-ab79-26dc22fb4c8d
+event:token
+data:{"message":{"role":"assistant","content":"을"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:cf1515de-520d-49a1-98c5-53246417d9f9
+event:token
+data:{"message":{"role":"assistant","content":" 추천"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:8493c748-07f7-4469-a4ba-3d8f4c2f2f6d
+event:token
+data:{"message":{"role":"assistant","content":"해"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:b5110375-8816-475c-bcd4-27efc1c7359f
+event:token
+data:{"message":{"role":"assistant","content":"드리겠습니다"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:d40816b0-8093-45d7-be08-8a01cde48b65
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e502b7bc-ce0f-476a-8067-2cd06c2636fe
+event:token
+data:{"message":{"role":"assistant","content":"\n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:94196772-a64d-458e-9efa-0bf4dc5dbdee
+event:token
+data:{"message":{"role":"assistant","content":"\n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:5425ae88-7a23-4249-b0e6-cbecfd917197
+event:token
+data:{"message":{"role":"assistant","content":"1"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ca0cc7a9-f922-4a2c-b8b6-f561aa3511e4
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:82f93855-8e67-4bd5-986f-1be834a0e91c
+event:token
+data:{"message":{"role":"assistant","content":" 고"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e8c2bf97-5fd0-45a5-bb1c-7832716222a9
+event:token
+data:{"message":{"role":"assistant","content":"반"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:68145e88-8160-4f58-8884-dad1d8bef10d
+event:token
+data:{"message":{"role":"assistant","content":"식당"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9ba3be43-bdcd-4463-96c0-eabb10b46096
+event:token
+data:{"message":{"role":"assistant","content":":"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:d08f0ffb-aaaa-4da8-b519-50a53b66c3ca
+event:token
+data:{"message":{"role":"assistant","content":" 돼"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:1719721a-5a83-450a-aa16-a1dabcd0aaa8
+event:token
+data:{"message":{"role":"assistant","content":"지고"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:855ad725-4958-4f19-9a26-43e444c18558
+event:token
+data:{"message":{"role":"assistant","content":"기"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:1bdf0b11-c1a5-40e2-9f66-a42f31ddd476
+event:token
+data:{"message":{"role":"assistant","content":" 전문"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:954faa60-5053-4d72-85ba-2e31923da6b6
+event:token
+data:{"message":{"role":"assistant","content":"점"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:29f2efa3-6a7a-4568-b4ff-07dfa5b3ea9f
+event:token
+data:{"message":{"role":"assistant","content":"으로"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:8dde15d7-fc03-4107-8573-9ee16c7ff2ab
+event:token
+data:{"message":{"role":"assistant","content":","},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:f99c0260-c974-45d1-9e78-ec38823d5ec1
+event:token
+data:{"message":{"role":"assistant","content":" 숙성"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:361b8eaa-0878-4032-9593-1251477b1fd7
+event:token
+data:{"message":{"role":"assistant","content":"된"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:f5811983-7f8a-4673-a46d-db1908a100d4
+event:token
+data:{"message":{"role":"assistant","content":" 고기"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:bbea1b39-112c-403a-9636-ac986e5f7f29
+event:token
+data:{"message":{"role":"assistant","content":"를"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:8e1af50e-9410-4cc4-baaf-ae8c45d7281e
+event:token
+data:{"message":{"role":"assistant","content":" 제공"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:60c9197b-2d17-421d-800e-c5f45aa3da08
+event:token
+data:{"message":{"role":"assistant","content":"하며"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9396ae3e-2e9b-4bdd-b57e-2bae9aa959ff
+event:token
+data:{"message":{"role":"assistant","content":" 다양"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:7b89b1e5-d0a5-4477-afd9-dcf2873a79a6
+event:token
+data:{"message":{"role":"assistant","content":"한"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:d567cb64-c5db-4288-ae3d-7a3558a055f6
+event:token
+data:{"message":{"role":"assistant","content":" 반찬"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:5acbdab9-dd9a-43d4-84c3-04f8b9bab484
+event:token
+data:{"message":{"role":"assistant","content":"과"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:3eb7df0b-aed2-4f2f-b995-57d94a45af02
+event:token
+data:{"message":{"role":"assistant","content":" 함께"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:76532810-1045-42d3-a892-b0b66187d3d8
+event:token
+data:{"message":{"role":"assistant","content":" 즐길"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ee347eba-596e-4272-9147-0e1fba29952d
+event:token
+data:{"message":{"role":"assistant","content":" 수"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:3987e5e5-8a81-4852-ab18-55fdc2a6eb6e
+event:token
+data:{"message":{"role":"assistant","content":" 있습니다"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:30149717-cc65-45f8-ba5c-28d9bc9a54fb
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:91f84b60-12ae-4338-888e-152e572121d8
+event:token
+data:{"message":{"role":"assistant","content":"\n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:8fb3121b-004d-454d-abca-a2e7eed6935c
+event:token
+data:{"message":{"role":"assistant","content":"\n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:1b5bddd3-3085-434b-9ff5-b398930a8173
+event:token
+data:{"message":{"role":"assistant","content":"2"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ed0fdf6e-42f3-4aef-8f83-6a75dcaab985
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:4ceb3c84-73ed-45e4-a114-53eb8fbcff4a
+event:token
+data:{"message":{"role":"assistant","content":" 호"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:95d09e2d-5944-4c9e-9c4c-d06330e518e6
+event:token
+data:{"message":{"role":"assistant","content":"접"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e6465f31-2d1e-45c6-b113-4a72e134e468
+event:token
+data:{"message":{"role":"assistant","content":"몽"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:d81b9f45-3a4a-4a95-adf8-2102b567ab9c
+event:token
+data:{"message":{"role":"assistant","content":":"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e275004a-f50b-4460-9849-a2b9ccd2cdd5
+event:token
+data:{"message":{"role":"assistant","content":" 중식"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:baad00d0-9f03-405a-8f25-62c8654ad3df
+event:token
+data:{"message":{"role":"assistant","content":" 전문"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:7b940bdd-06c1-4252-ad8a-6774d115e481
+event:token
+data:{"message":{"role":"assistant","content":"점"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:43db0374-c494-4707-a60a-425b5530628f
+event:token
+data:{"message":{"role":"assistant","content":"으로"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:30ff01c4-8404-4397-9f17-118a51d326e0
+event:token
+data:{"message":{"role":"assistant","content":","},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:f23c84c5-fa88-435a-851b-2f9ae4b4fcba
+event:token
+data:{"message":{"role":"assistant","content":" 고급"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:4e2505de-5273-44c5-8962-bb4a304c1b60
+event:token
+data:{"message":{"role":"assistant","content":"스러운"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:1fc1452b-1da1-4371-b018-e7d8992fdd53
+event:token
+data:{"message":{"role":"assistant","content":" 분위기"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:db5b94cb-a4e7-4568-94dc-8d962a49f3a0
+event:token
+data:{"message":{"role":"assistant","content":"와"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:99142da8-0e43-44a7-a727-2b987db7105a
+event:token
+data:{"message":{"role":"assistant","content":" 함께"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:0e3b95f4-b858-4fe3-9b0c-714667fb391e
+event:token
+data:{"message":{"role":"assistant","content":" 다양"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9af83f8b-6dd1-4267-8795-574687642fdf
+event:token
+data:{"message":{"role":"assistant","content":"한"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:0d99bc3d-4077-4eba-bda7-37999697fe66
+event:token
+data:{"message":{"role":"assistant","content":" 메뉴"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9ec69438-38eb-48db-85bf-fe8bbdb5209f
+event:token
+data:{"message":{"role":"assistant","content":"를"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:5559f575-158b-4971-bebb-e4ea2c385503
+event:token
+data:{"message":{"role":"assistant","content":" 즐길"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:64ef00f1-49d7-4aa2-bced-009dc7f7ad4d
+event:token
+data:{"message":{"role":"assistant","content":" 수"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9d38b180-438e-4be8-a8fc-7526f5c9ff0e
+event:token
+data:{"message":{"role":"assistant","content":" 있습니다"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:a20ae409-2f2b-4349-b982-64285c80a6ac
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ea6c35e6-3c0a-4c17-b7ab-9e829059de45
+event:token
+data:{"message":{"role":"assistant","content":"  \n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:16bfc683-55ef-406d-8bcb-75e5bdd6fd35
+event:token
+data:{"message":{"role":"assistant","content":"\n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ae1c58e5-765a-4c6d-b1e3-aebbd2e17ade
+event:token
+data:{"message":{"role":"assistant","content":"3"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:5df5596f-ffe4-4a40-b5b4-bb1ecbf46a7b
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:10290a73-d930-4f16-965f-4826d40d8f2f
+event:token
+data:{"message":{"role":"assistant","content":" 오"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ceafcb11-aa88-4902-bf24-d32a5dfc37a9
+event:token
+data:{"message":{"role":"assistant","content":"복"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:4a32cbac-6aed-4635-8529-84f2a66d73e2
+event:token
+data:{"message":{"role":"assistant","content":"당"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ceabe9b8-49e5-4b40-b1a6-b6b9260bd26a
+event:token
+data:{"message":{"role":"assistant","content":":"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:3174eaa8-ab63-4579-8ded-fec045f95e54
+event:token
+data:{"message":{"role":"assistant","content":" 한정식"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e157a71f-9351-47d1-937f-ae01be3d60ce
+event:token
+data:{"message":{"role":"assistant","content":" 전문"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9290cd9b-73a6-465d-9ba0-c43b7182f20a
+event:token
+data:{"message":{"role":"assistant","content":"점"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:20913833-fdc8-40bb-a7f3-8b42c9dd7968
+event:token
+data:{"message":{"role":"assistant","content":"으로"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:55c9c68f-bc3c-46bc-86fa-faee1a29a8b3
+event:token
+data:{"message":{"role":"assistant","content":","},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9ffa24f6-99fe-4e1e-b28a-f3184dcb8dea
+event:token
+data:{"message":{"role":"assistant","content":" 전통"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:19c31e6e-2c17-402c-ae47-aeff6c4dd1e5
+event:token
+data:{"message":{"role":"assistant","content":"적인"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:c4cd8eac-7b85-4546-971f-c8e9a7e4eacc
+event:token
+data:{"message":{"role":"assistant","content":" 한식"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:37e1078b-d1d6-4635-b5d0-bef2058193ec
+event:token
+data:{"message":{"role":"assistant","content":" 요리"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:413d008e-fc44-4d44-825d-c587b4f29192
+event:token
+data:{"message":{"role":"assistant","content":"를"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:d0ccfbd3-8e9b-4798-9347-ca65964b6f0e
+event:token
+data:{"message":{"role":"assistant","content":" 맛볼"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e4c50226-70aa-43f7-87b4-21722b409b63
+event:token
+data:{"message":{"role":"assistant","content":" 수"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:52342460-ab43-4558-9213-299f195f2ff2
+event:token
+data:{"message":{"role":"assistant","content":" 있으며"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:c1558099-54d1-49c2-9a72-52ca3cdb2f57
+event:token
+data:{"message":{"role":"assistant","content":" 가족"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:f846c460-86c5-4017-95e7-4991b1c40fc5
+event:token
+data:{"message":{"role":"assistant","content":" 단위"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:0624a3ae-1bca-49e4-9377-1a99e0053faa
+event:token
+data:{"message":{"role":"assistant","content":"로"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ceab6888-da8c-4b31-9111-22bb0bb0a65c
+event:token
+data:{"message":{"role":"assistant","content":" 방문"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e81d5228-fbbc-4335-916e-1fe889fbe951
+event:token
+data:{"message":{"role":"assistant","content":"하기"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:47ee05f6-1f49-47a8-be54-aefa3010a2fc
+event:token
+data:{"message":{"role":"assistant","content":" 좋습니다"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9e2dfdd6-93a3-4f08-8fa6-014a889c0617
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:7db8ab65-4434-4d5e-aa63-6816863e4b41
+event:token
+data:{"message":{"role":"assistant","content":" \n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:8f6287cd-4e91-4c86-9e77-6e6c72a22f5f
+event:token
+data:{"message":{"role":"assistant","content":"\n"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:b2627bcb-71e5-4bcc-83e1-d4e7c1328455
+event:token
+data:{"message":{"role":"assistant","content":"위"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:30872750-41b7-4c87-979d-a39b867ad163
+event:token
+data:{"message":{"role":"assistant","content":"의"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:b97c6954-5052-48bd-9132-7e1fe04a37af
+event:token
+data:{"message":{"role":"assistant","content":" 맛집"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:384258f5-5e6b-4d24-8836-4e0605e88c69
+event:token
+data:{"message":{"role":"assistant","content":"들은"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:92192b5e-5256-4803-b2b7-e7fb7b51525c
+event:token
+data:{"message":{"role":"assistant","content":" 보정"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:e0a74117-7ad7-416d-873c-628a9e9a83af
+event:token
+data:{"message":{"role":"assistant","content":"동"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:70774ee5-ab60-445c-98d0-45ca007949ff
+event:token
+data:{"message":{"role":"assistant","content":"에서"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:3ced7b6c-595e-4b5e-82d0-1972e1e38d2a
+event:token
+data:{"message":{"role":"assistant","content":" 인기"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:6e1f0cd2-77fd-4528-b4d7-dc52d5a435b0
+event:token
+data:{"message":{"role":"assistant","content":" 있는"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9ee99875-e398-454b-a5ed-89e05146a368
+event:token
+data:{"message":{"role":"assistant","content":" 곳"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:4584440f-791c-47b2-a965-a7d9156c2a83
+event:token
+data:{"message":{"role":"assistant","content":"들"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:74a94314-ce3d-4301-a055-e79ef1dbaa26
+event:token
+data:{"message":{"role":"assistant","content":" 중"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:834ef714-4298-4a19-aef3-cadbbdd27ca8
+event:token
+data:{"message":{"role":"assistant","content":" 일부"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ffc2f5af-a692-40ff-9aa8-1957a88b344b
+event:token
+data:{"message":{"role":"assistant","content":"이며"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:cc100b1a-55ba-416b-b5c2-452bed6430ca
+event:token
+data:{"message":{"role":"assistant","content":","},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:f77b831e-701d-4b93-b5a8-a8e5f8a2759c
+event:token
+data:{"message":{"role":"assistant","content":" 개인"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:ebba6d2d-9fe7-49b8-88c4-22333c10fcbc
+event:token
+data:{"message":{"role":"assistant","content":"의"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:d462f729-20e5-48d4-956f-f74b2749f4e7
+event:token
+data:{"message":{"role":"assistant","content":" 취향"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:7a4d6e54-cb22-4411-848f-92c21c445d91
+event:token
+data:{"message":{"role":"assistant","content":"에"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:adf8ea9d-393e-49bd-ab3b-e32c86324ac7
+event:token
+data:{"message":{"role":"assistant","content":" 따라"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:bf583009-6975-4b1a-ab2b-b7e1acd6c660
+event:token
+data:{"message":{"role":"assistant","content":" 다를"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:2a319497-b380-4d37-9bba-2457613aa0ef
+event:token
+data:{"message":{"role":"assistant","content":" 수"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:a7a08445-199a-409d-a193-bab8e9e34d10
+event:token
+data:{"message":{"role":"assistant","content":" 있으니"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:7ac497cd-4db8-495a-bc7c-07204d043318
+event:token
+data:{"message":{"role":"assistant","content":" 참고"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:fb415c0b-36ff-4a91-87f0-47e8de2dd391
+event:token
+data:{"message":{"role":"assistant","content":"하시기"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:f8a6ec22-7c47-4a0e-971a-e25c77ed3142
+event:token
+data:{"message":{"role":"assistant","content":" 바랍니다"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:c3d9669b-1e8d-4172-8004-85326268858e
+event:token
+data:{"message":{"role":"assistant","content":"."},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:3fa8a840-68af-4a97-bbf7-23844afba60f
+event:token
+data:{"message":{"role":"assistant","content":" 맛있는"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:738f443c-fcd8-4386-a328-75cf2bd05d94
+event:token
+data:{"message":{"role":"assistant","content":" 식사"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:0bee34c4-6bb0-4a34-a636-a8c662191b4d
+event:token
+data:{"message":{"role":"assistant","content":" 시간"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:67911291-5a97-4847-9fe4-fe6b14b0ed42
+event:token
+data:{"message":{"role":"assistant","content":" 되시길"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:4c14a6b7-7e03-4a4c-af7b-e7de6babe4e5
+event:token
+data:{"message":{"role":"assistant","content":" 바랍니다"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:9dfc9c75-0487-414e-b840-1a149b7de579
+event:token
+data:{"message":{"role":"assistant","content":"!"},"index":0,"inputLength":23,"outputLength":1,"stopReason":null}
+
+id:50b39a8a-eabd-4a57-8f2a-4da640b5df86
+event:token
+data:{"message":{"role":"assistant","content":""},"index":0,"inputLength":23,"outputLength":1,"stopReason":"stop_before"}
+
+id:549009f0-6a73-4ab0-aab1-b9524160922f
+event:result
+data:{"message":{"role":"assistant","content":"경기도 용인시 기흥구 보정동 근처 맛집을 추천해드리겠습니다.\n\n1. 고반식당: 돼지고기 전문점으로, 숙성된 고기를 제공하며 다양한 반찬과 함께 즐길 수 있습니다.\n\n2. 호접몽: 중식 전문점으로, 고급스러운 분위기와 함께 다양한 메뉴를 즐길 수 있습니다.  \n\n3. 오복당: 한정식 전문점으로, 전통적인 한식 요리를 맛볼 수 있으며 가족 단위로 방문하기 좋습니다. \n\n위의 맛집들은 보정동에서 인기 있는 곳들 중 일부이며, 개인의 취향에 따라 다를 수 있으니 참고하시기 바랍니다. 맛있는 식사 시간 되시길 바랍니다!"},"inputLength":23,"outputLength":136,"stopReason":"stop_before","seed":222626772,"aiFilter":[{"groupName":"curse","name":"insult","score":"2","result":"OK"},{"groupName":"curse","name":"discrimination","score":"2","result":"OK"},{"groupName":"unsafeContents","name":"sexualHarassment","score":"2","result":"OK"}]}
+
+id:4668c012-cfa8-4860-bfbe-f73f04569215
+event:signal
+data:{"data":"[DONE]"}
+
