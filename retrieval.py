@@ -12,8 +12,9 @@ from dotenv import load_dotenv
 from langchain_community.vectorstores import Chroma, FAISS, VectorStore
 from langchain_community.embeddings import ClovaEmbeddings
 
-# from src.clova_completion_executor import CompletionExecutor
+from src.clova_completion_executor import CompletionExecutor
 from src.prompt_template import Prompts
+from src.request_data import RequestData
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(PATH, 'data')

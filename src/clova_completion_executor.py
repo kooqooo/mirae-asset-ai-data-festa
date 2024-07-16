@@ -3,7 +3,6 @@ import json
 import requests
 from http import HTTPStatus
 
-from request_data import RequestData  # src/request_data.py
 from clovastudio_executor import CLOVAStudioExecutor  # src/clovastudio_executor.py
 
 
@@ -140,6 +139,9 @@ if __name__ == "__main__":
     import os
 
     from dotenv import load_dotenv
+
+    from request_data import RequestData  # src/request_data.py
+
 
     load_dotenv(override=True)
     API_KEY = os.getenv("API_KEY")
