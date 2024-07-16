@@ -1,6 +1,6 @@
 class RequestData:
     """
-    API 요청을 위한 데이터 클래스입니다.
+    ChatCompletions API 요청을 위한 데이터 클래스입니다.
 
     Args:
         messages: 프롬프트나 이전 대화 내용
@@ -47,4 +47,44 @@ class RequestData:
             "stopBefore": self.stopBefore,
             "includeAiFilters": self.includeAiFilters,
             "seed": self.seed,
+        }
+
+
+class SegmentationRequestData:
+    """
+    Segmentation API 요청을 위한 데이터 클래스입니다.
+    
+    Args:
+        text (str): 문단 나누기를 수행할 문서, 1~120,000자(한글 기준, 공백 포함)
+        segCnt (int): 원하는 문단 나누기 수, 1 <= segCount, -1 == segCount (-1로 설정 시 모델이 최적 문단 수로 분리) (기본값: -1)
+        alpha (float): 문단 나누기를 위한 thresholds 값, 클수록 나눠지는 문단 수 증가, -1.5 <= alpha <=1.5, -100 == alpha(모델의 최적값으로 자동 수행) (기본값: 0.0)
+        postProcess (bool): 문단 나누기 수행 후 원하는 길이로 문단을 합치거나 나누는 후처리 수행 여부 (기본값: False)
+        postProcessMaxSize (int): post process module 적용 시 문단에 포함되는 문자열의 최대 글자 수, 1 <= postProcessMaxSize (기본값: 1000)
+        postProcessMinSize (int): post process module 적용 시 문단에 포함되는 문자열의 최소 글자 수, 0 <= postProcessMinSize <= postProcessMaxSize (기본값: 300)
+    """
+    
+    def __init__(
+        self,
+        text: list[str],
+        segCnt: int = -1,
+        alpha: float = 0.0,
+        postProcess: bool = False,
+        postProcessMaxSize: int = 1000,
+        postProcessMinSize: int = 300,
+    ) -> None:
+        self.text = text
+        self.segCnt = segCnt
+        self.alpha = alpha
+        self.postProcess = postProcess
+        self.postProcessMaxSize = postProcessMaxSize
+        self.postProcessMinSize = postProcessMinSize
+        
+    def to_dict(self) -> dict:
+        return {
+            "text": self.text,
+            "segCnt": self.segCnt,
+            "alpha": self.alpha,
+            "postProcess": self.postProcess,
+            "postProcessMaxSize": self.postProcessMaxSize,
+            "postProcessMinSize": self.postProcessMinSize,
         }
