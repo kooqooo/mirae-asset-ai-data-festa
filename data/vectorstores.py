@@ -5,8 +5,8 @@ from langchain.schema.document import Document
 
 
 PATH = os.path.dirname(os.path.abspath(__file__))
-data_path = os.path.join(PATH, "data")
-json_path = os.path.join(data_path, "faq_data.json")
+json_path = os.path.join(PATH, "faq_data.json")
+
 with open(json_path, "r", encoding="utf-8") as f:
     faq = json.load(f)
 
@@ -60,13 +60,8 @@ if __name__ == "__main__":
     query_vector = embeddings.embed_query(query)
 
     # # Chroma 저장용 설정
-    # settings = Settings()
-    # settings.is_persistent = True
-    # settings.persist_directory = os.path.join(data_path, "chromadb")
-    # client = Client(settings=settings)
-    # chroma = Chroma(client=client)
-    # chroma = chroma.from_documents(documents=documents, embedding=embeddings)
-
+    # chroma = Chroma.from_documents(documents=documents, embedding=embeddings, persist_directory=os.path.join(PATH, "chroma_db"))
+    
     # Chroma 저장 안하는 방법
     chroma = Chroma.from_documents(documents=documents, embedding=embeddings)
 
@@ -83,7 +78,7 @@ if __name__ == "__main__":
     _print(chroma_similarity_search_with_score)
     _print(chroma_similarity_search_with_relevance_scores)
 
-    FAISS_INDEX_PATH = os.path.join(data_path, "faiss_index")
+    FAISS_INDEX_PATH = os.path.join(PATH, "faiss_index")
     faiss = FAISS.from_documents(documents=documents, embedding=embeddings)
     start = time()
     print(f"{type(faiss.embeddings) = }")
