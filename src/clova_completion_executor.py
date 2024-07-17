@@ -3,7 +3,10 @@ import json
 import requests
 from http import HTTPStatus
 
-from clovastudio_executor import CLOVAStudioExecutor  # src/clovastudio_executor.py
+try:
+    from .clovastudio_executor import CLOVAStudioExecutor  # src/clovastudio_executor.py
+except:
+    from src.clovastudio_executor import CLOVAStudioExecutor # 상위 디렉토리에서 실행 시
 
 
 class CompletionExecutor(CLOVAStudioExecutor):

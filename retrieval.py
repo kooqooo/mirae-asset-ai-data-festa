@@ -12,9 +12,6 @@ from dotenv import load_dotenv
 from langchain_community.vectorstores import Chroma, FAISS, VectorStore
 from langchain_community.embeddings import ClovaEmbeddings
 
-from src.clova_completion_executor import CompletionExecutor
-from src.prompt_template import Prompts
-from src.request_data import RequestData
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(PATH, 'data')
@@ -28,11 +25,11 @@ embeddings = ClovaEmbeddings()
 chroma = Chroma(persist_directory=chroma_path, embedding_function=embeddings)
 faiss = FAISS.load_local(faiss_path, embeddings, allow_dangerous_deserialization=True)
 
-def retrieve_answer(query: str, vectorstore: VectorStore) -> str:
+def retrieve_answer(query: str, vectorstore: VectorStore = faiss) -> str:
     result = vectorstore.similarity_search_with_score(query, k=1)
     return result[0][0].metadata["answer"]
 
-def retrieve_answers(query: str, vectorstore: VectorStore, k: int = 4) -> list:
+def retrieve_answers(query: str, vectorstore: VectorStore = faiss, k: int = 4) -> list:
     results = vectorstore.similarity_search_with_score(query, k=k)
     return [result[0].metadata["answer"] for result in results]
 
@@ -46,14 +43,17 @@ if __name__ == "__main__":
     
     query = "계좌 개설 방법 알려줘"
     
-    print("="*10, "ChromaDB", "="*10)
+    print(f"사용자의 질문: {query}")
+    print()
+    print("="*40, "ChromaDB", "="*40)
     answer = retrieve_answer(query, chroma)
     print(answer)
     
     answers = retrieve_answers(query, chroma)
     print_answers(answers)
     
-    print("="*10, "FAISS", "="*10)
+    print("\n")
+    print("="*40, "FAISS", "="*40)
     answer = retrieve_answer(query, faiss)
     print(answer)
     
