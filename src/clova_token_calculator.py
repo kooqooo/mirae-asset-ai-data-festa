@@ -4,7 +4,6 @@ import base64
 import json
 import http.client
 
-from request_data import RequestData  # src/clovastudio_executor.py
 try:
     from clovastudio_executor import CLOVAStudioExecutor  # src/clovastudio_executor.py
 except:
@@ -52,6 +51,9 @@ if __name__ == '__main__':
     import os
     
     from dotenv import load_dotenv
+    
+    from prompt_template import Prompts
+    
     load_dotenv(override=True)
     
     API_KEY = os.getenv("API_KEY")
@@ -67,13 +69,14 @@ if __name__ == '__main__':
     )
 
     preset_text = [
-        {"role": "system", "content": "사용자의 질문에 답변합니다."},
-        {"role": "user", "content": "경기도 용인시 기흥구 보정동 근처 맛집 추천해줘"},  # <- 맛없는 거 추천해줌
+        ["system", "사용자의 질문에 답변합니다."],
+        ["user", "경기도 용인시 기흥구 보정동 근처 맛집 추천해줘"]
     ]
-    request_data = RequestData(messages=preset_text).to_dict()
-
-    response_text = token_executor.execute(request_data)
+    prompts = Prompts.from_messages(preset_text).to_dict()
+    request_data = {"messages": prompts}
     # print(request_data)
+    
+    response_text = token_executor.execute(request_data)
     print(response_text)
     
     print(token_executor.get_total_tokens(request_data))
