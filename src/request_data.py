@@ -88,3 +88,15 @@ class SegmentationRequestData:
             "postProcessMaxSize": self.postProcessMaxSize,
             "postProcessMinSize": self.postProcessMinSize,
         }
+        
+class SlidingWindowRequestData:
+    def __init__(self, messages: list[dict], max_tokens: int=200) -> None:
+        self.messages = messages
+        self.max_tokens = max_tokens
+        
+    def to_dict(self) -> dict:
+        return {
+            "maxTokens": self.max_tokens,
+            "messages": self.messages,
+        }
+        
