@@ -48,6 +48,9 @@ class Prompts:
     def to_dict(self) -> List[dict[str, str]]:
         return [{"role": message.role, "content": message.content} for message in self.messages]
     
+    def to_list(self) -> List[Tuple[str, str]]:
+        return [f"{message.role}: {message.content}" for message in self.messages]
+    
     def __add__(self, other: "Prompts") -> "Prompts":
         self.messages.extend(other.messages)
         return self
