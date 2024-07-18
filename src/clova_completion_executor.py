@@ -164,9 +164,9 @@ if __name__ == "__main__":
         stream=True
     )
 
-    # print("execute(), stream=True")
-    # response = completion_executor.execute(request_data)
-    # print(response)
+    print("execute(), stream=True")
+    response = completion_executor.execute(request_data)
+    print(response)
 
     print()
     print("execute_all(), stream=True")

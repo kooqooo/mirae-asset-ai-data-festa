@@ -4,7 +4,7 @@ import http.client
 import requests
  
 class SlidingWindowExecutor(CLOVAStudioExecutor):
-    def __init__(self, host, api_key, api_key_primary_val, request_id, test_app_id='HCX-DASH-001'):
+    def __init__(self, api_key, api_key_primary_val, request_id, test_app_id='HCX-DASH-001', host='https://clovastudio.apigw.ntruss.com'):
         super().__init__(api_key, api_key_primary_val, request_id, test_app_id, host)
         self._end_point = 'sliding/chat-messages'
         self._test_app_id = test_app_id
@@ -41,8 +41,7 @@ if __name__ == "__main__":
     TEST_APP_ID = os.getenv('TEST_APP_ID')
     
     
-    host = 'https://clovastudio.apigw.ntruss.com'
-    sliding_window_executor = SlidingWindowExecutor(host, API_KEY, API_KEY_PRIMARY_VAL, REQUEST_ID)
+    sliding_window_executor = SlidingWindowExecutor(API_KEY, API_KEY_PRIMARY_VAL, REQUEST_ID)
     
     preset_text = [
         ["system", "사용자의 질문에 답변합니다."],

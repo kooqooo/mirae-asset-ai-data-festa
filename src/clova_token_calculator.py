@@ -62,10 +62,10 @@ if __name__ == '__main__':
     TEST_APP_ID = os.getenv("TEST_APP_ID")
     
     token_executor = TokenCalculationExecutor(
-        host='clovastudio.apigw.ntruss.com',
         api_key=API_KEY,
         api_key_primary_val=API_KEY_PRIMARY_VAL,
         request_id=REQUEST_ID,
+        host='clovastudio.apigw.ntruss.com',
     )
 
     preset_text = [
