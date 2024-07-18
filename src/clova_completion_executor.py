@@ -70,7 +70,7 @@ class CompletionExecutor(CLOVAStudioExecutor):
 
         return last_data_content
 
-    def execute_all(self, completion_request):
+    def invoke(self, completion_request):
         # 모든 응답을 반환, 스트림 출력 지원
         # parse_stream_response() 또는 parse_non_stream_response()를 사용하여 content 부분만 추출이 필요
         with self._send_request(completion_request) as r:
@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
     print()
     print("execute_all(), stream=True")
-    response = completion_executor.execute_all(request_data) # 여기서 이미 실시간 출력
+    response = completion_executor.invoke(request_data) # 여기서 이미 실시간 출력
     print(parse_stream_response(response)) # 마지막 줄에 이미 완성된 문장이 있어서 두 번 출력됨
 
     non_stream_completion_executor = CompletionExecutor(
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     )
     
     print("execute_all(), stream=False")
-    response = non_stream_completion_executor.execute_all(request_data)
+    response = non_stream_completion_executor.invoke(request_data)
     print("response:", response)
     # print("type(response):", type(response))    
     print(parse_non_stream_response(response))
