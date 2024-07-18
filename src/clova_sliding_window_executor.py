@@ -1,8 +1,13 @@
-from clovastudio_executor import CLOVAStudioExecutor
 import json
 import http.client
 import requests
  
+try:
+    from clovastudio_executor import CLOVAStudioExecutor
+except:
+    from src.clovastudio_executor import CLOVAStudioExecutor
+
+
 class SlidingWindowExecutor(CLOVAStudioExecutor):
     def __init__(self, api_key, api_key_primary_val, request_id, test_app_id='HCX-DASH-001', host='https://clovastudio.apigw.ntruss.com'):
         super().__init__(api_key, api_key_primary_val, request_id, test_app_id, host)
