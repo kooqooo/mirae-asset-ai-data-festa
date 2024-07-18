@@ -4,7 +4,7 @@ import requests
 from http import HTTPStatus
 
 try:
-    from .clovastudio_executor import CLOVAStudioExecutor  # src/clovastudio_executor.py
+    from clovastudio_executor import CLOVAStudioExecutor  # src/clovastudio_executor.py
 except:
     from src.clovastudio_executor import CLOVAStudioExecutor # 상위 디렉토리에서 실행 시
 
@@ -25,23 +25,20 @@ class CompletionExecutor(CLOVAStudioExecutor):
         self._headers["Accept"] = "text/event-stream" if self._stream else "application/json"
         self._end_point = "chat-completions"
 
-    def _send_request(self, completion_request, stream=True):
+    def _send_request(self, completion_request):
         return requests.post(
             f"{self._host}/testapp/v1/{self._end_point}/{self._test_app_id}",
             headers=self._headers,
             json=completion_request,
-            stream=stream,
+            stream=self._stream,
         )
 
-    def request(self, completion_request, stream=True):
-        return self._send_request(completion_request, stream=stream)
-
-    def execute(self, completion_request, stream=True):
+    def execute(self, completion_request):
         # 길이가 가장 긴 문장을 반환, 테스트 결과 가장 빠른 속도를 보여서 채택
         final_answer = ""
 
-        with self.request(completion_request) as r:
-            if stream:
+        with self._send_request(completion_request) as r:
+            if self._stream:
                 longest_line = ""
                 for line in r.iter_lines():
                     if line:
@@ -52,7 +49,7 @@ class CompletionExecutor(CLOVAStudioExecutor):
                             if len(message_content) > len(longest_line):
                                 longest_line = message_content
                 final_answer = longest_line
-            elif not stream:
+            elif not self._stream:
                 final_answer = r.json()  # 가정: 단일 응답이 JSON 형태로 반환됨
         return final_answer
 
@@ -73,11 +70,11 @@ class CompletionExecutor(CLOVAStudioExecutor):
 
         return last_data_content
 
-    def execute_all(self, completion_request, stream=True):
+    def execute_all(self, completion_request):
         # 모든 응답을 반환, 스트림 출력 지원
         # parse_stream_response() 또는 parse_non_stream_response()를 사용하여 content 부분만 추출이 필요
-        with self.request(completion_request) as r:
-            if stream:
+        with self._send_request(completion_request) as r:
+            if self._stream:
                 if r.status_code == HTTPStatus.OK:
                     response_data = ""
                     for line in r.iter_lines():
@@ -164,6 +161,7 @@ if __name__ == "__main__":
         api_key_primary_val=API_KEY_PRIMARY_VAL,
         request_id=REQUEST_ID,
         test_app_id=TEST_APP_ID,
+        stream=True
     )
 
     print("execute(), stream=True")
@@ -172,17 +170,19 @@ if __name__ == "__main__":
 
     print()
     print("execute_all(), stream=True")
-    response = completion_executor.execute_all(request_data)
-    print(parse_stream_response(response))
+    response = completion_executor.execute_all(request_data) # 여기서 이미 실시간 출력
+    print(parse_stream_response(response)) # 마지막 줄에 이미 완성된 문장이 있어서 두 번 출력됨
 
     non_stream_completion_executor = CompletionExecutor(
         api_key=API_KEY,
         api_key_primary_val=API_KEY_PRIMARY_VAL,
         request_id=REQUEST_ID,
         test_app_id=TEST_APP_ID,
-        stream=False,
+        stream=False
     )
-    print()
+    
     print("execute_all(), stream=False")
-    response = non_stream_completion_executor.execute_all(request_data, stream=False)
+    response = non_stream_completion_executor.execute_all(request_data)
+    print("response:", response)
+    # print("type(response):", type(response))    
     print(parse_non_stream_response(response))

@@ -4,7 +4,7 @@ import requests
 
 class CLOVAStudioExecutor:
     def __init__(
-        self, api_key, api_key_primary_val, request_id, test_app_id, host="https://clovastudio.stream.ntruss.com"
+        self, api_key, api_key_primary_val, request_id, test_app_id="HCX-DASH-001", host="https://clovastudio.stream.ntruss.com"
     ) -> None:
         self._host = host
         self._api_key = api_key

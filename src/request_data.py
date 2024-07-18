@@ -1,3 +1,6 @@
+from typing import List
+
+
 class RequestData:
     """
     ChatCompletions API 요청을 위한 데이터 클래스입니다.
@@ -16,13 +19,13 @@ class RequestData:
 
     def __init__(
         self,
-        messages: list[dict[str, str]],
+        messages: List[dict[str, str]],
         temperature: float = 0.1,
         topP: float = 0.8,
         topK: int = 0,
         maxTokens: int = 256,
         repeatPenalty: float = 5.0,
-        stopBefore: list[str] = [],
+        stopBefore: List[str] = [],
         includeAiFilters: bool = True,
         seed: int = 0,
     ) -> None:
@@ -65,7 +68,7 @@ class SegmentationRequestData:
     
     def __init__(
         self,
-        text: list[str],
+        text: List[str],
         segCnt: int = -1,
         alpha: float = 0.0,
         postProcess: bool = False,
@@ -87,4 +90,42 @@ class SegmentationRequestData:
             "postProcess": self.postProcess,
             "postProcessMaxSize": self.postProcessMaxSize,
             "postProcessMinSize": self.postProcessMinSize,
+        }
+        
+class SlidingWindowRequestData:
+    def __init__(self, messages: List[dict], max_tokens: int=200) -> None:
+        self.messages = messages
+        self.max_tokens = max_tokens
+        
+    def to_dict(self) -> dict:
+        return {
+            "maxTokens": self.max_tokens,
+            "messages": self.messages,
+        }
+        
+class SummaryRequestData:
+    def __init__(
+        self,
+        texts: List[str],
+        autoSentenceSplitter: bool=True,
+        segCount: int=-1,
+        segMinSize: int=300,
+        segMaxSize: int=1000,
+        includeAiFilters: bool=True,
+    ) -> None:
+        self.texts = texts
+        self.autoSentenceSplitter = autoSentenceSplitter
+        self.segCount = segCount
+        self.segMinSize = segMinSize
+        self.segMaxSize = segMaxSize
+        self.includeAiFilters = includeAiFilters
+        
+    def to_dict(self) -> dict:
+        return {
+            "texts": self.texts,
+            "autoSentenceSplitter": self.autoSentenceSplitter,
+            "segCount": self.segCount,
+            "segMinSize": self.segMinSize,
+            "segMaxSize": self.segMaxSize,
+            "includeAiFilters": self.includeAiFilters
         }
