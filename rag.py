@@ -14,15 +14,6 @@ API_KEY_PRIMARY_VAL = os.getenv("API_KEY_PRIMARY_VAL")
 REQUEST_ID = os.getenv("REQUEST_ID")
 TEST_APP_ID = os.getenv("TEST_APP_ID")
 
-completion_executor = CompletionExecutor(
-    api_key=API_KEY,
-    api_key_primary_val=API_KEY_PRIMARY_VAL,
-    request_id=REQUEST_ID,
-    test_app_id=TEST_APP_ID,
-)
-
-with open("data/system_prompt.txt", "r", encoding="utf-8") as f:
-    system_prompt_text = f.read()
 
 def append_reference_to_system_prompt(query: str) -> Prompts:
     reference = retrieve_answer(query)
@@ -51,4 +42,14 @@ def rag_executor(
     return answer
 
 if __name__ == "__main__":
+    completion_executor = CompletionExecutor(
+        api_key=API_KEY,
+        api_key_primary_val=API_KEY_PRIMARY_VAL,
+        request_id=REQUEST_ID,
+        test_app_id=TEST_APP_ID,
+    )
+
+    with open("data/system_prompt.txt", "r", encoding="utf-8") as f:
+        system_prompt_text = f.read()
+        
     print(rag_executor("계좌 개설 방법 알려줘"))
