@@ -1,4 +1,5 @@
 import os
+import json
 from typing import List, Union, Dict
 from uuid import uuid4
 
@@ -8,7 +9,7 @@ from src.clova_completion_executor import CompletionExecutor
 from src.clova_summary_executor import SummaryExecutor
 from src.clova_sliding_window_executor import SlidingWindowExecutor
 from src.prompt_template import Prompts
-from utils.seoul_time import get_current_time_str
+from utils.seoul_time import get_current_time_str, convert_for_file_name
 from retrieval import retrieve_answer, prompt_path
 from src.request_data import RequestData, SlidingWindowRequestData, SummaryRequestData
 
@@ -20,6 +21,10 @@ TEST_APP_ID = os.getenv("TEST_APP_ID")
 SLIDING_WINDOW_REQUEST_ID = os.getenv("KOOQOOO_SLI_WIN_REQUEST_ID")
 SUMMARY_APP_ID = os.getenv("KOOQOOO_SUMMARY_APP_ID")
 SUMMARY_REQUEST_ID = os.getenv("KOOQOOO_SUMMARY_REQUEST_ID")
+path = os.path.abspath(os.path.dirname(__file__))
+
+with open(prompt_path, "r", encoding="utf-8") as f:
+    system_message = f.read()
 
 completion_executor = CompletionExecutor(
     api_key=API_KEY,
@@ -60,7 +65,7 @@ class SessionState:
         self.last_user_message: Prompts = Prompts()
         self.last_assistant_message: Prompts = Prompts()
         self.previous_messages: Prompts = Prompts()
-        self.system_message: Prompts = Prompts()
+        self.system_message: Prompts = Prompts.from_message("system", system_message)
     
     def to_dict(self) -> dict:
         return {
@@ -78,20 +83,20 @@ class SessionState:
             "last_user_message": self.last_user_message.to_dict(),
             "last_assistant_message": self.last_assistant_message.to_dict(),
             "previous_messages": self.previous_messages.to_dict(),
-            "system_message": self.system_message
+            "system_message": self.system_message.to_dict()
         }
 
     def __str__(self) -> str:
         return str(self.to_dict())
 
+def save_log(session_state: SessionState):
+    with open(
+        os.path.join(path, "logs", f"{convert_for_file_name(session_state.created_at)}.json"), "w", encoding="utf-8") as f:
+        json.dump(session_state.to_dict(), f, ensure_ascii=False, indent=4)
+
 def main():
-    # 시스템 프롬프트 불러오기
-    with open(prompt_path, "r", encoding="utf-8") as f:
-        system_message = f.read()
-    
     # 세션 상태 초기화
     session_state = SessionState()
-    session_state.system_message = Prompts.from_message("system", system_message)
     
     while True:
         # 사용자 입력 받기
@@ -105,8 +110,8 @@ def main():
         
         # 사용자 입력으로부터 답변 생성
         retrieved_answer = retrieve_answer(user_input)
-        session_state.system_message = Prompts.from_message("system", system_message + retrieved_answer)
-        chat_log = session_state.system_message + session_state.chat_log
+        system_message_with_reference = Prompts.from_message("system", system_message + retrieved_answer)
+        chat_log = system_message_with_reference + session_state.chat_log
         
         ### 여기 슬라이딩 윈도우 구현하기 ###
         sliding_window_request = SlidingWindowRequestData(messages=chat_log.to_dict()).to_dict()
@@ -133,9 +138,10 @@ def main():
         print("=== 요약 ===")
         print(summary_response)
         print()
+        print()
         
-        ### 여기에 저장 로직 추가 ###
-
+        save_log(session_state)
+        
         # 턴 수 감소
         session_state.turns -= 1
         if session_state.turns == 0:
