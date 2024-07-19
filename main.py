@@ -106,13 +106,15 @@ def main():
         # 사용자 입력으로부터 답변 생성
         retrieved_answer = retrieve_answer(user_input)
         session_state.system_message = Prompts.from_message("system", system_message + retrieved_answer)
-
         chat_log = session_state.system_message + session_state.chat_log
         
         ### 여기 슬라이딩 윈도우 구현하기 ###
+        sliding_window_request = SlidingWindowRequestData(messages=chat_log.to_dict()).to_dict()
+        sliding_window_response = sliding_window_executor.execute(sliding_window_request)
+        adjusted_messages = sliding_window_response["result"]["messages"]
         
         # 사용자 입력을 Clova Studio로 전송
-        completion_request = RequestData(messages=chat_log.to_dict()).to_dict()
+        completion_request = RequestData(messages=adjusted_messages).to_dict()
         completion_response = completion_executor.invoke(completion_request)
         
         session_state.total_tokens += completion_response["result"]["outputLength"]
@@ -120,7 +122,7 @@ def main():
         
         # Clova Studio의 응답을 파싱하여 시스템 응답, 이를 chat_log에 추가
         session_state.last_response = completion_response["result"]["message"]["content"]
-        session_state.chat_log.add_message("assistant", session_state.last_response)
+        session_state.chat_log.add_message("assistant", ''.join(session_state.last_response))
         print("=== Clova Studio 응답 ===")
         print(session_state.last_response)
         print()
@@ -143,7 +145,7 @@ def main():
             
             # 전체 대화 내용을 요약
             summary_request = SummaryRequestData(texts=session_state.chat_log.to_list()).to_dict()
-            summary_response = summary_executor.execute(summary_request)
+            # summary_response = summary_executor.execute(summary_request) # 토큰 절약을 위해 일시적 비활성화
             break
     
 
