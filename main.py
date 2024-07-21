@@ -51,8 +51,15 @@ sliding_window_executor = SlidingWindowExecutor(
 
 
 def save_log(session_state: SessionState):
-    with open(
-        os.path.join(path, "logs", f"{convert_for_file_name(session_state.created_at)}.json"), "w", encoding="utf-8") as f:
+    logs_path = os.path.join(path, "logs")
+    
+    if not os.path.exists(logs_path):
+        os.makedirs(logs_path)
+    
+    log_file_path = os.path.join(logs_path, f"{convert_for_file_name(session_state.created_at)}.json")
+    
+    # 로그 파일 저장
+    with open(log_file_path, "w", encoding="utf-8") as f:
         json.dump(session_state.to_dict(), f, ensure_ascii=False, indent=4)
 
 def main():
