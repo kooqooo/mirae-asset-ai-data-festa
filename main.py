@@ -9,10 +9,11 @@ from src.clova_completion_executor import CompletionExecutor
 from src.clova_summary_executor import SummaryExecutor
 from src.clova_sliding_window_executor import SlidingWindowExecutor
 from src.prompt_template import Prompts
-from utils.seoul_time import get_current_time_str, convert_for_file_name
-from retrieval import retrieve_answer, prompt_path
 from src.request_data import RequestData, SlidingWindowRequestData, SummaryRequestData
 from src.session_state import SessionState
+from utils.seoul_time import convert_for_file_name
+from question_generator import generate_questions
+from retrieval import prompt_path, retrieve_documents, extract_from_documents, retrieve_answer
 
 load_dotenv(override=True)
 API_KEY = os.getenv("KOOQOOO_API_KEY")
@@ -74,9 +75,36 @@ def main():
             break
         
         session_state.chat_log.add_message("user", user_input)
-        
+        session_state.previous_user_inputs.add_message("user", user_input)
+        generated_questions = generate_questions(
+            user_input=user_input,
+            system_message=system_message,
+            previous_user_inputs=session_state.previous_user_inputs
+        )
+        print("=== 생성된 질문 ===")
+        print(generated_questions)
+
         # 사용자 입력으로부터 답변 생성
         retrieved_answer = retrieve_answer(user_input)
+        print("=== 답변 ===")
+        print(retrieved_answer)
+        retrieved_documents = retrieve_documents(user_input)
+        documents_info = extract_from_documents(retrieved_documents)
+        print("=== 문서 정보1111 ===")
+        print(documents_info)
+
+        # 단시간에 임베딩 요청이 많이 들어온다고 거절당함
+        for question in generated_questions:
+            retrieved_documents = retrieve_documents(question)
+            retrieved_documents = retrieve_documents(generated_questions)
+            documents_info += extract_from_documents(retrieved_documents)
+        
+        from pprint import pprint
+        print("=== 문서 정보 ===")
+        pprint(documents_info)
+        # rerank
+
+
         system_message_with_reference = Prompts.from_message("system", system_message + retrieved_answer)
         chat_log = system_message_with_reference + session_state.chat_log
         
@@ -94,7 +122,7 @@ def main():
         
         # Clova Studio의 응답을 파싱하여 시스템 응답, 이를 chat_log에 추가
         session_state.last_response = completion_response["result"]["message"]["content"]
-        session_state.chat_log.add_message("assistant", ''.join(session_state.last_response))
+        session_state.chat_log.add_message("assistant", session_state.last_response)
         print("=== Clova Studio 응답 ===")
         print(session_state.last_response)
         print()
