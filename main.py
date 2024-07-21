@@ -1,9 +1,9 @@
 import os
 import json
-from typing import List, Union, Dict
-from uuid import uuid4
+from time import sleep
 
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 from src.clova_completion_executor import CompletionExecutor
 from src.clova_summary_executor import SummaryExecutor
@@ -74,36 +74,33 @@ def main():
         if user_input in ["종료", "그만", "rmaks", "whdfy"]:
             break
         
-        session_state.chat_log.add_message("user", user_input)
-        session_state.previous_user_inputs.add_message("user", user_input)
         generated_questions = generate_questions(
             user_input=user_input,
-            system_message=system_message,
             previous_user_inputs=session_state.previous_user_inputs
         )
-        print("=== 생성된 질문 ===")
-        print(generated_questions)
+        session_state.chat_log.add_message("user", user_input)
+        session_state.previous_user_inputs.add_message("user", user_input)
 
         # 사용자 입력으로부터 답변 생성
-        retrieved_answer = retrieve_answer(user_input)
-        print("=== 답변 ===")
-        print(retrieved_answer)
+        retrieved_answer = retrieve_answer(user_input) # 이 부분이 나중에는 사용되지 않고 rerank된 문서 정보를 사용해야 함
         retrieved_documents = retrieve_documents(user_input)
         documents_info = extract_from_documents(retrieved_documents)
-        print("=== 문서 정보1111 ===")
-        print(documents_info)
 
-        # 단시간에 임베딩 요청이 많이 들어온다고 거절당함
-        for question in generated_questions:
-            retrieved_documents = retrieve_documents(question)
+        if isinstance(generated_questions, list):
+            for question in tqdm(generated_questions):
+                retrieved_documents = retrieve_documents(question)
+                documents_info += extract_from_documents(retrieved_documents)
+        elif isinstance(generated_questions, str):
             retrieved_documents = retrieve_documents(generated_questions)
             documents_info += extract_from_documents(retrieved_documents)
         
         from pprint import pprint
         print("=== 문서 정보 ===")
         pprint(documents_info)
-        # rerank
 
+        # documents_info에 대해 rerank가 필요
+        # 현재는 query에 대한 답변만을 사용
+        # query를 포함 rerank?
 
         system_message_with_reference = Prompts.from_message("system", system_message + retrieved_answer)
         chat_log = system_message_with_reference + session_state.chat_log

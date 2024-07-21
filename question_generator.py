@@ -12,7 +12,7 @@ from retrieval import data_path
 
 
 with open(os.path.join(data_path, "generate_question_prompt.txt"), "r", encoding="utf-8") as f:
-    system_message = f.read()
+    generate_question_prompt = f.read()
 
 load_dotenv(override=True)
 API_KEY = os.getenv("API_KEY")
@@ -33,13 +33,13 @@ def extract_questions(text: str) -> List[str] | str:
     
     return questions if questions else text.strip()
 
-def generate_questions(user_input: str, system_message: str, previous_user_inputs: Prompts) -> List[str]:
-    session_state = SessionState(system_message=system_message)
-    
-    session_state.chat_log = previous_user_inputs
-    session_state.chat_log.add_message("user", user_input)
-    chat_log = session_state.system_message + session_state.chat_log
-    request_data = RequestData(messages=chat_log.to_dict(), temperature=0.5).to_dict()
+def generate_questions(user_input: str, previous_user_inputs: Prompts) -> List[str]:
+    messages = Prompts.from_message("system", generate_question_prompt)
+    messages += previous_user_inputs
+    messages.add_message("user", user_input)
+    print("question_generator.py: generate_questions: messages.to_dict()")
+    print(messages.to_dict())
+    request_data = RequestData(messages=messages.to_dict(), temperature=0.5).to_dict()
     response = question_generator.execute(completion_request=request_data)
 
     return extract_questions(response["result"]["message"]["content"])

@@ -14,6 +14,8 @@ from langchain_community.vectorstores import Chroma, FAISS, VectorStore
 from langchain_community.embeddings import ClovaEmbeddings
 from langchain.schema.document import Document
 
+# from src.custom_langchain_clova_embedding import ClovaEmbeddings # Error: 42901 해결용
+
 PATH = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(PATH, 'data')
 prompt_path = os.path.join(data_path, 'system_prompt.txt')
