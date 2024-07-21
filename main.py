@@ -12,6 +12,7 @@ from src.prompt_template import Prompts
 from utils.seoul_time import get_current_time_str, convert_for_file_name
 from retrieval import retrieve_answer, prompt_path
 from src.request_data import RequestData, SlidingWindowRequestData, SummaryRequestData
+from src.session_state import SessionState
 
 load_dotenv(override=True)
 API_KEY = os.getenv("KOOQOOO_API_KEY")
@@ -49,46 +50,6 @@ sliding_window_executor = SlidingWindowExecutor(
 )
 
 
-class SessionState:
-    def __init__(self):
-        self.uuid: str = str(uuid4())
-        self.created_at: str = get_current_time_str()
-        self.title: str = ""
-        self.preset_messages: Prompts = Prompts()
-        self.chat_tokens: int = 0
-        self.total_tokens: int = 0
-        self.chat_log: Prompts = Prompts()
-        self.turns = 10
-        self.summary_messages: Prompts = Prompts()
-        self.last_user_input: str = ""
-        self.last_response: str = ""
-        self.last_user_message: Prompts = Prompts()
-        self.last_assistant_message: Prompts = Prompts()
-        self.previous_messages: Prompts = Prompts()
-        self.system_message: Prompts = Prompts.from_message("system", system_message)
-    
-    def to_dict(self) -> dict:
-        return {
-            "uuid": self.uuid,
-            "created_at": self.created_at,
-            "title": self.title,
-            "preset_messages": self.preset_messages.to_dict(),
-            "chat_tokens": self.chat_tokens,
-            "total_tokens": self.total_tokens,
-            "chat_log": self.chat_log.to_dict(),
-            "turns": self.turns,
-            "summary_messages": self.summary_messages.to_dict(),
-            "last_user_input": self.last_user_input,
-            "last_response": self.last_response,
-            "last_user_message": self.last_user_message.to_dict(),
-            "last_assistant_message": self.last_assistant_message.to_dict(),
-            "previous_messages": self.previous_messages.to_dict(),
-            "system_message": self.system_message.to_dict()
-        }
-
-    def __str__(self) -> str:
-        return str(self.to_dict())
-
 def save_log(session_state: SessionState):
     with open(
         os.path.join(path, "logs", f"{convert_for_file_name(session_state.created_at)}.json"), "w", encoding="utf-8") as f:
@@ -96,7 +57,7 @@ def save_log(session_state: SessionState):
 
 def main():
     # 세션 상태 초기화
-    session_state = SessionState()
+    session_state = SessionState(system_message=system_message)
     
     while True:
         # 사용자 입력 받기
@@ -105,7 +66,6 @@ def main():
         if user_input in ["종료", "그만", "rmaks", "whdfy"]:
             break
         
-        session_state.last_user_input = user_input
         session_state.chat_log.add_message("user", user_input)
         
         # 사용자 입력으로부터 답변 생성
