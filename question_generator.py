@@ -49,7 +49,7 @@ if __name__ == "__main__":
     previous_user_inputs = Prompts.from_message("user", "공동인증서 발급/재발급 어떻게 해?")
     user_input = "유효기한이 얼마야?"
     
-    quesetions = generate_questions(user_input, system_message, previous_user_inputs)
+    quesetions = generate_questions(user_input, previous_user_inputs)
     print(quesetions)
 
     # Ouput:
