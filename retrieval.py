@@ -7,11 +7,12 @@ FAISS 평균 소요 시간:    0.137077 sec
 """
 
 import os
+from typing import List, Tuple
 
 from dotenv import load_dotenv
 from langchain_community.vectorstores import Chroma, FAISS, VectorStore
 from langchain_community.embeddings import ClovaEmbeddings
-
+from langchain.schema.document import Document
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(PATH, 'data')
@@ -33,6 +34,21 @@ def retrieve_answers(query: str, vectorstore: VectorStore = faiss, k: int = 4) -
     results = vectorstore.similarity_search_with_score(query, k=k)
     return [result[0].metadata["answer"] for result in results]
 
+def retrieve_documents(query: str, vectorstore: VectorStore = faiss, k: int = 4) -> list:
+    results = vectorstore.similarity_search_with_score(query, k=k)
+    return results
+
+def extract_from_document(document: Tuple[Document, float]) -> str:
+    return {
+        "ids": document[0].metadata["ids"],
+        "question": document[0].page_content,
+        "answer": document[0].metadata["answer"],
+        "score": document[1]
+    }
+
+def extract_from_documents(documents: list) -> list:
+    return [extract_from_document(document) for document in documents]
+
 if __name__ == "__main__":
     
     def print_answers(answers: list):
@@ -40,8 +56,12 @@ if __name__ == "__main__":
             print()
             print(idx+1)
             print(answer)
+
+    def print_documents(documents: List[tuple[Document, float]]):
+        from pprint import pprint
+        pprint(extract_from_documents(documents))
     
-    query = "계좌 개설 방법 알려줘"
+    query = "IRP에 대해서 알려줘"
     
     print(f"사용자의 질문: {query}")
     print()
@@ -59,6 +79,11 @@ if __name__ == "__main__":
     
     answers = retrieve_answers(query, faiss)
     print_answers(answers)
+
+    print("\n")
+    print("="*40, "Documents", "="*40)
+    retrieved_documents = retrieve_documents(query, faiss)
+    print_documents(retrieved_documents)
     
     
     # # Compare the average time taken to retrieve an answer from ChromaDB and FAISS
