@@ -14,6 +14,8 @@ from src.session_state import SessionState
 from utils.seoul_time import convert_for_file_name
 from question_generator import generate_questions
 from retrieval import prompt_path, retrieve_documents, extract_from_documents, retrieve_answer
+from voting import get_lowest_score_document, get_most_frequent_document
+
 
 load_dotenv(override=True)
 API_KEY = os.getenv("KOOQOOO_API_KEY")
@@ -82,10 +84,10 @@ def main():
         session_state.previous_user_inputs.add_message("user", user_input)
 
         # 사용자 입력으로부터 답변 생성
-        retrieved_answer = retrieve_answer(user_input) # 이 부분이 나중에는 사용되지 않고 rerank된 문서 정보를 사용해야 함
         retrieved_documents = retrieve_documents(user_input)
         documents_info = extract_from_documents(retrieved_documents)
 
+        # 생성된 질문으로 부터 답변 생성
         if isinstance(generated_questions, list):
             for question in tqdm(generated_questions):
                 retrieved_documents = retrieve_documents(question)
@@ -94,18 +96,13 @@ def main():
             retrieved_documents = retrieve_documents(generated_questions)
             documents_info += extract_from_documents(retrieved_documents)
         
-        from pprint import pprint
-        print("=== 문서 정보 ===")
-        pprint(documents_info)
-
-        # documents_info에 대해 rerank가 필요
-        # 현재는 query에 대한 답변만을 사용
-        # query를 포함 rerank?
-
-        system_message_with_reference = Prompts.from_message("system", system_message + retrieved_answer)
+        voted_document = get_most_frequent_document(documents_info)
+        voted_answer = voted_document[0]["answer"]
+        
+        system_message_with_reference = Prompts.from_message("system", system_message + voted_answer)
         chat_log = system_message_with_reference + session_state.chat_log
         
-        ### 여기 슬라이딩 윈도우 구현하기 ###
+        # 슬라이딩 윈도우로 대화가 길어져도 맥락 유지하기
         sliding_window_request = SlidingWindowRequestData(messages=chat_log.to_dict()).to_dict()
         sliding_window_response = sliding_window_executor.execute(sliding_window_request)
         adjusted_messages = sliding_window_response["result"]["messages"]
