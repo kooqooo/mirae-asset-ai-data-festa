@@ -1,5 +1,6 @@
 # DB
 *.bin
+logs/*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

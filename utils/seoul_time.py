@@ -5,6 +5,9 @@ import pytz
 def get_current_time_str():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+def convert_for_file_name(str: str):
+    return str.replace(" ", "_").replace(":", "-")
+
 def str_to_datetime(timestamp_str: str) -> datetime:
     """주어진 타임스탬프 문자열을 datetime 객체로 변환"""
     return datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
@@ -30,9 +33,11 @@ def convert_utc_to_seoul(utc_dt: datetime) -> datetime:
     return seoul_dt
 
 if __name__ == "__main__":
-    now = get_current_time_str()
-    print('T'.join(now.split()))
-    dt = mongodb_to_datetime("1970-01-01T00:00:00.000")
-    seoul_dt = convert_utc_to_seoul(dt)
-    datetime_str = datetime_to_str(seoul_dt)
-    print(datetime_str)
+    # now = get_current_time_str()
+    # print('T'.join(now.split()))
+    # dt = mongodb_to_datetime("1970-01-01T00:00:00.000")
+    # seoul_dt = convert_utc_to_seoul(dt)
+    # datetime_str = datetime_to_str(seoul_dt)
+    # print(datetime_str)
+    print(seoul_now())
+    print(str(seoul_now()))

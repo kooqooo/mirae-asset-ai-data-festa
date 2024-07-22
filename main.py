@@ -1,16 +1,21 @@
 import os
-from typing import List, Union, Dict
-from uuid import uuid4
+import json
+from time import sleep
 
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 from src.clova_completion_executor import CompletionExecutor
 from src.clova_summary_executor import SummaryExecutor
 from src.clova_sliding_window_executor import SlidingWindowExecutor
 from src.prompt_template import Prompts
-from utils.seoul_time import get_current_time_str
-from retrieval import retrieve_answer, prompt_path
 from src.request_data import RequestData, SlidingWindowRequestData, SummaryRequestData
+from src.session_state import SessionState
+from utils.seoul_time import convert_for_file_name
+from question_generator import generate_questions
+from retrieval import prompt_path, retrieve_documents, extract_from_documents, retrieve_answer
+from voting import get_lowest_score_document, get_most_frequent_document
+
 
 load_dotenv(override=True)
 API_KEY = os.getenv("KOOQOOO_API_KEY")
@@ -20,6 +25,10 @@ TEST_APP_ID = os.getenv("TEST_APP_ID")
 SLIDING_WINDOW_REQUEST_ID = os.getenv("KOOQOOO_SLI_WIN_REQUEST_ID")
 SUMMARY_APP_ID = os.getenv("KOOQOOO_SUMMARY_APP_ID")
 SUMMARY_REQUEST_ID = os.getenv("KOOQOOO_SUMMARY_REQUEST_ID")
+path = os.path.abspath(os.path.dirname(__file__))
+
+with open(prompt_path, "r", encoding="utf-8") as f:
+    system_message = f.read()
 
 completion_executor = CompletionExecutor(
     api_key=API_KEY,
@@ -44,54 +53,21 @@ sliding_window_executor = SlidingWindowExecutor(
 )
 
 
-class SessionState:
-    def __init__(self):
-        self.uuid: str = str(uuid4())
-        self.created_at: str = get_current_time_str()
-        self.title: str = ""
-        self.preset_messages: Prompts = Prompts()
-        self.chat_tokens: int = 0
-        self.total_tokens: int = 0
-        self.chat_log: Prompts = Prompts()
-        self.turns = 10
-        self.summary_messages: Prompts = Prompts()
-        self.last_user_input: str = ""
-        self.last_response: str = ""
-        self.last_user_message: Prompts = Prompts()
-        self.last_assistant_message: Prompts = Prompts()
-        self.previous_messages: Prompts = Prompts()
-        self.system_message: Prompts = Prompts()
+def save_log(session_state: SessionState):
+    logs_path = os.path.join(path, "logs")
     
-    def to_dict(self) -> dict:
-        return {
-            "uuid": self.uuid,
-            "created_at": self.created_at,
-            "title": self.title,
-            "preset_messages": self.preset_messages.to_dict(),
-            "chat_tokens": self.chat_tokens,
-            "total_tokens": self.total_tokens,
-            "chat_log": self.chat_log.to_dict(),
-            "turns": self.turns,
-            "summary_messages": self.summary_messages.to_dict(),
-            "last_user_input": self.last_user_input,
-            "last_response": self.last_response,
-            "last_user_message": self.last_user_message.to_dict(),
-            "last_assistant_message": self.last_assistant_message.to_dict(),
-            "previous_messages": self.previous_messages.to_dict(),
-            "system_message": self.system_message
-        }
-
-    def __str__(self) -> str:
-        return str(self.to_dict())
+    if not os.path.exists(logs_path):
+        os.makedirs(logs_path)
+    
+    log_file_path = os.path.join(logs_path, f"{convert_for_file_name(session_state.created_at)}.json")
+    
+    # 로그 파일 저장
+    with open(log_file_path, "w", encoding="utf-8") as f:
+        json.dump(session_state.to_dict(), f, ensure_ascii=False, indent=4)
 
 def main():
-    # 시스템 프롬프트 불러오기
-    with open(prompt_path, "r", encoding="utf-8") as f:
-        system_message = f.read()
-    
     # 세션 상태 초기화
-    session_state = SessionState()
-    session_state.system_message = Prompts.from_message("system", system_message)
+    session_state = SessionState(system_message=system_message)
     
     while True:
         # 사용자 입력 받기
@@ -100,15 +76,33 @@ def main():
         if user_input in ["종료", "그만", "rmaks", "whdfy"]:
             break
         
-        session_state.last_user_input = user_input
+        generated_questions = generate_questions(
+            user_input=user_input,
+            previous_user_inputs=session_state.previous_user_inputs
+        )
         session_state.chat_log.add_message("user", user_input)
-        
+        session_state.previous_user_inputs.add_message("user", user_input)
+
         # 사용자 입력으로부터 답변 생성
-        retrieved_answer = retrieve_answer(user_input)
-        session_state.system_message = Prompts.from_message("system", system_message + retrieved_answer)
-        chat_log = session_state.system_message + session_state.chat_log
+        retrieved_documents = retrieve_documents(user_input)
+        documents_info = extract_from_documents(retrieved_documents)
+
+        # 생성된 질문으로 부터 답변 생성
+        if isinstance(generated_questions, list):
+            for question in tqdm(generated_questions):
+                retrieved_documents = retrieve_documents(question)
+                documents_info += extract_from_documents(retrieved_documents)
+        elif isinstance(generated_questions, str):
+            retrieved_documents = retrieve_documents(generated_questions)
+            documents_info += extract_from_documents(retrieved_documents)
         
-        ### 여기 슬라이딩 윈도우 구현하기 ###
+        voted_document = get_most_frequent_document(documents_info)
+        voted_answer = voted_document[0]["answer"]
+        
+        system_message_with_reference = Prompts.from_message("system", system_message + voted_answer)
+        chat_log = system_message_with_reference + session_state.chat_log
+        
+        # 슬라이딩 윈도우로 대화가 길어져도 맥락 유지하기
         sliding_window_request = SlidingWindowRequestData(messages=chat_log.to_dict()).to_dict()
         sliding_window_response = sliding_window_executor.execute(sliding_window_request)
         adjusted_messages = sliding_window_response["result"]["messages"]
@@ -122,7 +116,7 @@ def main():
         
         # Clova Studio의 응답을 파싱하여 시스템 응답, 이를 chat_log에 추가
         session_state.last_response = completion_response["result"]["message"]["content"]
-        session_state.chat_log.add_message("assistant", ''.join(session_state.last_response))
+        session_state.chat_log.add_message("assistant", session_state.last_response)
         print("=== Clova Studio 응답 ===")
         print(session_state.last_response)
         print()
@@ -133,9 +127,10 @@ def main():
         print("=== 요약 ===")
         print(summary_response)
         print()
+        print()
         
-        ### 여기에 저장 로직 추가 ###
-
+        save_log(session_state)
+        
         # 턴 수 감소
         session_state.turns -= 1
         if session_state.turns == 0:

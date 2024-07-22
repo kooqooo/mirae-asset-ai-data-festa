@@ -1,18 +1,18 @@
 from typing import List, Tuple, Union
 
 class Prompt:
-    def __init__(self, role, content):
+    def __init__(self, role: str, content: str) -> None:
         self.role = role
         self.content = content
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Message(role='{self.role}', content='{self.content}')"
 
-    def render(self, context):
+    def render(self, context: dict) -> str:
         return self.content.format(**context)
     
 class Prompts:
-    def __init__(self):
+    def __init__(self) -> None:
         self.messages: list[Prompt | None] = []
 
     def validate_role(self, role: str):
@@ -41,7 +41,7 @@ class Prompts:
             instance.add_message(message[0], message[1])
         return instance
 
-    def render(self, context: dict):
+    def render(self, context: dict) -> None:
         for message in self.messages:
             message.content = message.render(context)
     
@@ -55,10 +55,10 @@ class Prompts:
         self.messages.extend(other.messages)
         return self
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"MessageList(messages={self.messages})"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.to_dict())
 
 
