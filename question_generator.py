@@ -37,8 +37,6 @@ def generate_questions(user_input: str, previous_user_inputs: Prompts) -> List[s
     messages = Prompts.from_message("system", generate_question_prompt)
     messages += previous_user_inputs
     messages.add_message("user", user_input)
-    print("question_generator.py: generate_questions: messages.to_dict()")
-    print(messages.to_dict())
     request_data = RequestData(messages=messages.to_dict(), temperature=0.5).to_dict()
     response = question_generator.execute(completion_request=request_data)
 
