@@ -15,17 +15,7 @@ from utils.seoul_time import convert_for_file_name
 from question_generator import generate_questions
 from retrieval import prompt_path, retrieve_documents, extract_from_documents, retrieve_answer
 from voting import get_lowest_score_document, get_most_frequent_document
-
-
-load_dotenv(override=True)
-API_KEY = os.getenv("KOOQOOO_API_KEY")
-API_KEY_PRIMARY_VAL = os.getenv("KOOQOOO_API_KEY_PRIMARY_VAL")
-REQUEST_ID = os.getenv("REQUEST_ID")
-TEST_APP_ID = os.getenv("TEST_APP_ID")
-SLIDING_WINDOW_REQUEST_ID = os.getenv("KOOQOOO_SLI_WIN_REQUEST_ID")
-SUMMARY_APP_ID = os.getenv("KOOQOOO_SUMMARY_APP_ID")
-SUMMARY_REQUEST_ID = os.getenv("KOOQOOO_SUMMARY_REQUEST_ID")
-path = os.path.abspath(os.path.dirname(__file__))
+from config import *
 
 with open(prompt_path, "r", encoding="utf-8") as f:
     system_message = f.read()

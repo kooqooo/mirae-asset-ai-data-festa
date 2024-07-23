@@ -7,12 +7,8 @@ from src.clova_completion_executor import CompletionExecutor
 from src.prompt_template import Prompts
 from src.request_data import RequestData
 from retrieval import retrieve_answer, retrieve_answers
+from config import API_KEY, API_KEY_PRIMARY_VAL, REQUEST_ID, TEST_APP_ID
 
-load_dotenv(override=True)
-API_KEY = os.getenv("API_KEY")
-API_KEY_PRIMARY_VAL = os.getenv("API_KEY_PRIMARY_VAL")
-REQUEST_ID = os.getenv("REQUEST_ID")
-TEST_APP_ID = os.getenv("TEST_APP_ID")
 
 
 def append_reference_to_system_prompt(query: str) -> Prompts:

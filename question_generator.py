@@ -9,16 +9,11 @@ from src.session_state import SessionState
 from src.prompt_template import Prompts
 from src.request_data import RequestData
 from retrieval import data_path
-
+from config import API_KEY, API_KEY_PRIMARY_VAL, REQUEST_ID, TEST_APP_ID
 
 with open(os.path.join(data_path, "generate_question_prompt.txt"), "r", encoding="utf-8") as f:
     generate_question_prompt = f.read()
 
-load_dotenv(override=True)
-API_KEY = os.getenv("API_KEY")
-API_KEY_PRIMARY_VAL = os.getenv("API_KEY_PRIMARY_VAL")
-REQUEST_ID = os.getenv("REQUEST_ID")
-TEST_APP_ID = os.getenv("TEST_APP_ID")
 
 question_generator = CompletionExecutor(
     api_key=API_KEY,
