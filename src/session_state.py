@@ -23,7 +23,6 @@ class SessionState:
             "created_at": self.created_at,
             "title": self.title,
             "total_tokens": self.total_tokens,
-            "system_message": self.system_message.to_dict(),
             "chat_log": self.chat_log.to_dict(),
             "summary_messages": self.summary_messages.to_dict(),
         }
