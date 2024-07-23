@@ -1,6 +1,14 @@
 import streamlit as st
 
+from src.session_state import SessionState
+
 stst = st.session_state
+
+if "messages" not in stst:
+    stst["messages"] = [{"role": "assistant", "content": "나는 말을 두 번 따라하는 앵무새 입니다."}]
+    
+if "chat_state" not in stst:
+    stst["chat_state"] = SessionState("안녕하세요!")
 
 chat_history = [
     {
@@ -28,9 +36,6 @@ with st.sidebar:
 
 st.title("💬 Chatbot")
 st.caption("🚀 A Streamlit chatbot powered by HyperCLOVA X")
-
-if "messages" not in stst:
-    stst["messages"] = [{"role": "assistant", "content": "나는 말을 두 번 따라하는 앵무새 입니다."}]
 
 for msg in stst.messages:
     st.chat_message(msg["role"]).write(msg["content"])
