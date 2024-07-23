@@ -29,7 +29,7 @@ def get_most_frequent_document(documents_with_scores: List[Dict]) -> Document:
             if score < min_score:
                 document = doc
                 min_score = score
-    return document, counter, min_score
+    return document
     
 
 if __name__ == "__main__":
