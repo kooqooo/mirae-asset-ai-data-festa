@@ -20,7 +20,7 @@ st.markdown("<h1 style='text-align: center;'>💬 m.Talk 채팅상담</h1>", uns
 
 # 챗봇 아이콘
 chatbot_icon = Image.open(chatbot_icon_path)
-st.image(chatbot_icon, width=180, caption="🚀 powered by HyperCLOVA")
+st.image(chatbot_icon, width=180, caption="🚀 powered by HyperCLOVA X")
 
 
 # 세션 상태 초기화
