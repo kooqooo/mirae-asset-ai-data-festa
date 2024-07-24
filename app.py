@@ -1,6 +1,5 @@
 import streamlit as st
 from PIL import Image
-import datetime
 
 from config import *
 from src.clova_completion_executor import CompletionExecutor
@@ -57,19 +56,26 @@ if "sliding_window_executor" not in st.session_state:
         request_id=SLIDING_WINDOW_REQUEST_ID,
     )
 
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4 = st.columns(4)
 with col1:
     if st.button("처음으로"):
         delete_session_state()
         st.rerun()
 with col2:
-    st.button("전화상담")
+    if st.button("전화상담"):
+        st.toast("1588-6800\n\n평일 08:00 ~ 18:00 (토, 일요일 및 공휴일 제외)", icon="📞")
 with col3:
-    st.button("1:1 문의")
-with col4:
     st.button("채팅이력")
-with col5:
-    st.button("요약하기")
+with col4:
+    if st.button("요약하기"):
+        if not st.session_state.chat_state.chat_log.messages:
+            st.toast("대화가 없습니다.")
+        else:
+            texts = st.session_state.chat_state.chat_log.to_list()
+            summary_request = SummaryRequestData(texts=texts).to_dict()
+            summary_response = st.session_state.summary_executor.execute(summary_request)
+            st.toast("[대화 요약]\n\n" + summary_response)
+            
     
 st.markdown("---")
 
@@ -81,25 +87,24 @@ for message in st.session_state.messages:
 # 채팅이 시작되지 않았을 때만 옵션 버튼 표시
 # TODO: 자주 묻는 질문에 대해서 적절한 답변 대응
 if not st.session_state.chat_started:
-    options = [
-        "신규 상장종목 거래방법 안내",
-        "개인 투자용 국채 안내",
-        "보안매체 발급",
-        "계좌비밀번호 재등록 안내",
-        "IRP(퇴직연금) 계좌개설",
-        "개인연금계약이전 안내",
-    ]
+    import json
+    with open(faq_sample_data_path, "r", encoding="utf-8") as f:
+        options = json.load(f)
+    st.header("자주 묻는 질문")
     for option in options:
-        if st.button(option):
-            user_message = Message("user", option, get_seoul_timestamp())
+        if st.button(option["question"]):
+            user_message = Message("user", option["question"], get_seoul_timestamp())
             st.session_state.messages.append(user_message)
-            
+            user_input = option["question"]
             assistant_message = Message(
                 "assistant",
-                f"{option}에 대해 안내해 드리겠습니다. 어떤 점이 궁금하신가요?",
+                option["answer"],
                 get_seoul_timestamp()
             )
             st.session_state.messages.append(assistant_message)
+            st.session_state.chat_state.title = option["question"]
+            st.session_state.chat_state.chat_log.add_message("user", user_input)
+            st.session_state.chat_state.chat_log.add_message("assistant", option["answer"])
             st.session_state.chat_started = True
             st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
