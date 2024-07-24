@@ -10,7 +10,11 @@ from src.prompt_template import Prompts
 from src.request_data import RequestData, SlidingWindowRequestData, SummaryRequestData
 from src.session_state import SessionState
 from utils.seoul_time import get_seoul_timestamp
-from utils.streamlit_utils import Message, write_message, delete_session_state
+from utils.streamlit_utils import Message, write_message, delete_session_state, save_log
+from question_generator import generate_questions
+from retrieval import prompt_path, retrieve_documents, extract_from_documents
+from voting import get_most_frequent_document
+
 # 페이지 설정
 st.set_page_config(page_title="m.Talk 채팅상담", layout="centered")
 st.markdown("<h1 style='text-align: center;'>💬 m.Talk 채팅상담</h1>", unsafe_allow_html=True)
@@ -28,6 +32,7 @@ if "messages" not in st.session_state:      # 화면에 표시되는 메시지
 if "chat_state" not in st.session_state:    # 내부 사용 메시지
     with open(prompt_path, "r", encoding="utf-8") as f:
         system_message = f.read()
+    st.session_state.system_message = system_message
     st.session_state.chat_state = SessionState(system_message)
 if "completion_executor" not in st.session_state:
     st.session_state.completion_executor = CompletionExecutor(
@@ -52,6 +57,21 @@ if "sliding_window_executor" not in st.session_state:
         request_id=SLIDING_WINDOW_REQUEST_ID,
     )
 
+col1, col2, col3, col4, col5 = st.columns(5)
+with col1:
+    if st.button("처음으로"):
+        delete_session_state()
+        st.rerun()
+with col2:
+    st.button("전화상담")
+with col3:
+    st.button("1:1 문의")
+with col4:
+    st.button("채팅이력")
+with col5:
+    st.button("요약하기")
+    
+st.markdown("---")
 
 # 채팅 히스토리 표시
 for message in st.session_state.messages:
@@ -100,27 +120,66 @@ if user_input:
         st.stop()
     user_message = Message("user", user_input, get_seoul_timestamp())
     st.session_state.messages.append(user_message)
+    st.session_state.chat_state.chat_log.add_message("user", user_input)
     write_message(user_message)
 
-    response = f"'{user_input}'에 대한 답변입니다. 추가 질문이 있으시면 말씀해 주세요."
+    # 임시 메시지 표시
+    with st.status("필요한 자료를 검색 중입니다.") as status:
+        generated_questions = generate_questions(
+            user_input=user_input,
+            previous_user_inputs=st.session_state.chat_state.previous_user_inputs
+        )
+        st.session_state.chat_state.previous_user_inputs.add_message("user", user_input)
+        
+        retrieved_documents = retrieve_documents(user_input)
+        documents_info = extract_from_documents(retrieved_documents)
+        
+        if isinstance(generated_questions, list):
+            for question in generated_questions:
+                retrieved_documents = retrieve_documents(question)
+                documents_info += extract_from_documents(retrieved_documents)
+        elif isinstance(generated_questions, str):
+            retrieved_documents = retrieve_documents(generated_questions)
+            documents_info += extract_from_documents(retrieved_documents)
+        
+        voted_document = get_most_frequent_document(documents_info)
+        voted_answer = voted_document["answer"]
+        
+        status.update(label="적절한 답변을 준비하고 있습니다.", state="running")
+        # 시스템 메시지에 답변 추가
+        system_message_with_reference = Prompts.from_message("system", st.session_state.system_message + voted_answer)
+        chat_log = system_message_with_reference + st.session_state.chat_state.chat_log
+        
+        # 슬라이딩 윈도우로 대화가 길어져도 맥락 유지하기
+        sliding_window_request = SlidingWindowRequestData(messages=chat_log.to_dict()).to_dict()
+        sliding_window_response = st.session_state.sliding_window_executor.execute(sliding_window_request)
+        adjusted_messages = sliding_window_response["result"]["messages"]
+        
+        # 사용자 입력을 Clova Studio로 전송
+        completion_request = RequestData(messages=adjusted_messages).to_dict()
+        completion_response = st.session_state.completion_executor.invoke(completion_request)
+        
+        st.session_state.chat_state.total_tokens += completion_response["result"]["outputLength"]
+        st.session_state.chat_state.chat_tokens += completion_response["result"]["outputLength"]
+        
+        # Clova Studio의 응답을 파싱하여 시스템 응답, 이를 chat_log에 추가
+        st.session_state.chat_state.last_response = completion_response["result"]["message"]["content"]
+        st.session_state.chat_state.chat_log.add_message("assistant", st.session_state.chat_state.last_response)
+
+        # 프로세스 완료
+        status.update(label="아래의 답변을 참고해주세요.", state="complete")
+
+    response = st.session_state.chat_state.last_response
     assistant_message = Message("assistant", response, get_seoul_timestamp())
     st.session_state.messages.append(assistant_message)
     write_message(assistant_message)
     
     if not st.session_state.chat_started:
         st.session_state.chat_started = True
+        if user_input:
+            st.session_state.chat_state.title = user_input
+        else:
+            st.session_state.chat_state.title = st.session_state.chat_state.created_at
+        save_log(st.session_state.chat_state, path)
         st.rerun()
-
-col1, col2, col3, col4, col5 = st.columns(5)
-with col1:
-    if st.button("처음으로"):
-        delete_session_state()
-        st.rerun()
-with col2:
-    st.button("전화상담")
-with col3:
-    st.button("1:1 문의")
-with col4:
-    st.button("채팅이력")
-with col5:
-    st.button("요약하기")
+    save_log(st.session_state.chat_state, path)
