@@ -5,7 +5,6 @@
 ChromaDB 평균 소요 시간: 0.161336 sec
 FAISS 평균 소요 시간:    0.137077 sec
 """
-__import__("pysqlite3")
 import os
 from typing import List, Tuple
 
