@@ -18,7 +18,7 @@ def get_lowest_score_document(documents_with_scores: List[Dict]) -> Document:
             max_score = doc["score"]
     return document
 
-def get_most_frequent_document(documents_with_scores: List[Dict]) -> Document:
+def get_most_frequent_document(documents_with_scores: List[Dict]) -> Dict:
     document = None
     counter = Counter([doc["ids"] for doc in documents_with_scores])
     max_count = max(counter.values())
