@@ -1,5 +1,4 @@
 import streamlit as st
-from PIL import Image
 
 from config import *
 from src.clova_completion_executor import CompletionExecutor
@@ -19,9 +18,14 @@ st.set_page_config(page_title="m.Talk 채팅상담", layout="centered")
 st.markdown("<h1 style='text-align: center;'>💬 m.Talk 채팅상담</h1>", unsafe_allow_html=True)
 
 # 챗봇 아이콘
-chatbot_icon = Image.open(chatbot_icon_path)
-st.image(chatbot_icon, width=180, caption="🚀 powered by HyperCLOVA X")
-
+st.markdown(
+    f"""
+    <div style="display: flex; justify-content: center;">
+        <img src="https://cdn-icons-png.flaticon.com/512/6134/6134346.png" width="180">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # 세션 상태 초기화
 if "chat_started" not in st.session_state:  # 채팅이 시작되었는지 여부
