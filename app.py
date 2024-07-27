@@ -60,7 +60,7 @@ if "sliding_window_executor" not in st.session_state:
         request_id=SLIDING_WINDOW_REQUEST_ID,
     )
 
-col1, col2, col4 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 with col1:
     if st.button("처음으로"):
         delete_session_state()
@@ -68,6 +68,9 @@ with col1:
 with col2:
     if st.button("전화상담"):
         st.toast("1588-6800\n\n평일 08:00 ~ 18:00 (토, 일요일 및 공휴일 제외)", icon="📞")
+with col3:
+    if st.button("채팅이력"):
+        st.toast("해당 기능은 로그인 기능이 구현시 표시될 예정입니다.")
 with col4:
     if st.button("요약하기"):
         if not st.session_state.chat_state.chat_log.messages:
