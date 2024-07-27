@@ -111,7 +111,6 @@ if not st.session_state.chat_started:
             st.session_state.chat_state.chat_log.add_message("assistant", option["answer"])
             st.session_state.chat_started = True
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
     init_assistant_message = Message(
         role="assistant",
@@ -182,6 +181,15 @@ if user_input:
     assistant_message = Message("assistant", response, get_seoul_timestamp())
     st.session_state.messages.append(assistant_message)
     write_message(assistant_message)
+
+    # 요약
+    texts = [st.session_state.chat_state.last_response]
+    summary_request = SummaryRequestData(texts=texts).to_dict()
+    summary_response = st.session_state.summary_executor.execute(summary_request)
+    summary_response = "[요약]\n\n" + summary_response
+    summary_message = Message("assistant", summary_response, get_seoul_timestamp())
+    st.session_state.messages.append(summary_message)
+    write_message(summary_message)
     
     if not st.session_state.chat_started:
         st.session_state.chat_started = True
