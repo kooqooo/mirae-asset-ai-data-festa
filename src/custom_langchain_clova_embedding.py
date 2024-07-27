@@ -91,7 +91,7 @@ class ClovaEmbeddings(BaseModel, Embeddings):
         """
         embeddings = []
         for text in tqdm(texts):
-            sleep(2)
+            sleep(1.1)
             embeddings.append(self._embed_text(text))
         return embeddings
 
