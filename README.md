@@ -4,4 +4,4 @@
 > `HyperCLOVA X와 함께, AI로 만드는 금융투자의 새로운 경험`이 공모 주제입니다.
 ---
 ### 사용하기
-[🔗바로가기](https://miraeassetfeast.streamlit.app)
+[🔗바로가기](https://miraeassetfesta.streamlit.app)
